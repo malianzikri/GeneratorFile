@@ -18,8 +18,8 @@ public class GeneratorXML {
 
     public String generatexml(String tagging, String isi) {
         String xml = "";
+        xml = xml(isi, tagging);
         //proses membuat generator xml dengan memanggil metode lain
-        System.out.println("tes");
         return xml;
     }
 
@@ -38,18 +38,19 @@ public class GeneratorXML {
         return tagging_normalisasi;
     }
 
-    public String xml(String[] isi, String[] tangging) {
+    public String xml(String isi, String tangging) {
         String xml = null;
             // proses disini untuk mengisi string isi dan tanggi menggunakan library jdom2 
-
+        String[] isi_normalisasi =  pisah_seperator_isi(isi);
+        String[] tangging_normalisasi = pisah_separator_tagging(tangging);
         try {
             Element tes = new Element("Data");
             Document doc = new Document(tes);
 
-            if (tangging.length == isi.length) {
+            if (tangging_normalisasi.length == isi_normalisasi.length) {
                 int a = 0;
-                for (String elemen1 : tangging) {
-                    doc.getRootElement().addContent(new Element(elemen1.toString()).setText(isi[a]));
+                for (String elemen : tangging_normalisasi) {
+                    doc.getRootElement().addContent(new Element(elemen.toString()).setText(isi_normalisasi[a]));
                     a++;
                 }
 
