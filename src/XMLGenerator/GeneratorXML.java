@@ -19,6 +19,7 @@ public class GeneratorXML {
     public String generatexml(String tagging, String isi) {
         String xml = "";
         //proses membuat generator xml dengan memanggil metode lain
+        System.out.println("tes");
         return xml;
     }
 
