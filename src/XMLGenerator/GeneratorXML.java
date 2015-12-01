@@ -24,10 +24,15 @@ public class GeneratorXML {
 
     Element header[] = null;
     Element child[] = null;
-    Element root = new Element("DOCUMENT", "cococont.xsd");
-    Document doc = new Document(root);
-    Element doclist = new Element("COCOCONT");
-
+    Element root ;
+    Document doc ;
+    Element doclist ;
+    public GeneratorXML(String Root,String nama_dokument,String xmlns )
+    {
+         root = new Element(Root, xmlns);
+         doc= new Document(root);
+         doclist= new Element(nama_dokument);
+    }
     public void set_tag_header(String tag_header) {
         String[] split_tag_header = tag_header.split(",");
         header = new Element[split_tag_header.length];
@@ -102,8 +107,6 @@ public class GeneratorXML {
         }
     }
 
-    public void final_generator() {
-        
-    }
+    
 
 }
