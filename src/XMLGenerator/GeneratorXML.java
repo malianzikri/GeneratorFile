@@ -7,60 +7,81 @@ package XMLGenerator;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 /**
  *
- * @author Malian class yang berfungsi memanggil metode atau function class ini
+ * @author Malian 
+ * class yang berfungsi memanggil metode atau function class ini
  * akan memanggil metode atau function yang dibutuhkan untuk menggenerate xml
+ * kode 0: untuk memasukan data langsung ke header
+ * kode 1: untuk memasukan data langsung ke child yang berada dibawah header
+ * kode 2: untuk memasukan data langsung ke child yang berada didalam child
  */
 public class GeneratorXML {
 
-    public String generatexml(String tagging, String isi) {
-        String xml = "";
-        xml = xml(isi, tagging);
-        //proses membuat generator xml dengan memanggil metode lain
-        return xml;
-    }
+    Element header[] = null;
+    Element child[] = null;
+    Element root = new Element("DOCUMENT", "cococont.xsd");
+    Document doc = new Document(root);
+    Element doclist = new Element("COCOCONT");
 
-    public String[] pisah_seperator_isi(String isi) {
-        //proses mengubah isi dari string menjadi isi yang dinormalisasi berdsarkan separtor serta memanggil metode tagging
-        String[] isi_normalisasi = null;
-        isi_normalisasi = isi.split(",");
-        return isi_normalisasi;
-    }
-
-    public String[] pisah_separator_tagging(String tangging) {
-            //proses mengubah tanggi menjadi tangging xml yang akan dipakai untuk diisi dari isi separator
-        //proses disini juga pembuatan node dari tanggi yang disediakan
-        String[] tagging_normalisasi = null;
-        tagging_normalisasi = tangging.split(",");
-        return tagging_normalisasi;
-    }
-
-    public String xml(String isi, String tangging) {
-        String xml = null;
-            // proses disini untuk mengisi string isi dan tanggi menggunakan library jdom2 
-        String[] isi_normalisasi =  pisah_seperator_isi(isi);
-        String[] tangging_normalisasi = pisah_separator_tagging(tangging);
-        try {
-            Element tes = new Element("Data");
-            Document doc = new Document(tes);
-
-            if (tangging_normalisasi.length == isi_normalisasi.length) {
-                int a = 0;
-                for (String elemen : tangging_normalisasi) {
-                    doc.getRootElement().addContent(new Element(elemen.toString()).setText(isi_normalisasi[a]));
-                    a++;
-                }
-
-                xml = new XMLOutputter().outputString(doc);
-            } else {
-                xml = "Isi melebihi jumlah elemen !";
-            }
-        } catch (Exception e) {
-            xml = e.getMessage();
+    public void set_tag_header(String tag_header) {
+        String[] split_tag_header = tag_header.split(",");
+        header = new Element[split_tag_header.length];
+        for (int i = 0; i < split_tag_header.length; i++) {
+            header[i] = new Element(split_tag_header[i]);
         }
-        return xml;
     }
+
+    public void isi_tag_header(String tagging, int index_header) {
+        String tagging_split[] = tagging.split(",");
+        for (int i = 0; i < tagging_split.length; i++) {
+            String split_element[] = tagging_split[i].split(":");
+            header[index_header].addContent(new Element(split_element[0].trim()).setText(split_element[1].trim()));
+        }
+
+//        doclist.addContent(header[index_header]);
+    }
+
+    public void set_tag_child(String tag_child) {
+        String[] split_tag_header = tag_child.split(",");
+        child = new Element[split_tag_header.length];
+        for (int i = 0; i < split_tag_header.length; i++) {
+            child[i] = new Element(split_tag_header[i]);
+        }
+
+    }
+
+    public void isi_tag_child(String tagging_cont, int index_child) {
+        String tagging_spliter[] = tagging_cont.split(",");
+
+        for (int i = 0; i < tagging_spliter.length; i++) {
+            String split_element[] = tagging_spliter[i].split(":");
+            child[index_child].addContent(new Element(split_element[0].trim()).setText(split_element[1]));
+
+        }
+//       
+//        doclist.addContent(header[index_header]);
+    }
+
+    public void add_content(String kode, int index_header, int index_child) {
+        if (kode.equals("1")) {
+            doclist.addContent(header[index_header]);
+        } else if (kode.equals("2")) {
+            header[index_header].addContent(child[index_child]);
+        } else if (kode.equals("3")) {
+            child[index_header].addContent(child[index_child]);
+        }
+    }
+    public void final_generator()
+    {
+         doc.getRootElement().addContent(doclist);
+        String xml = new XMLOutputter().outputString(doc);
+        XMLOutputter xmlOutput = new XMLOutputter();
+        xmlOutput.setFormat(Format.getPrettyFormat());
+        System.out.println(xml);
+    }
+
 }
