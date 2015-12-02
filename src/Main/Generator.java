@@ -6,6 +6,7 @@
 package Main;
 
 import XMLGenerator.GeneratorXML;
+import XMLGenerator.XMLParsing;
 
 /**
  *
@@ -22,18 +23,38 @@ public class Generator {
          */
         return xml;
     }
-      public static void main(String[] args) {
+
+    public static void main(String[] args) {
         // TODO code application logic here
-          GeneratorXML fj = new GeneratorXML ("document","COCOCONT","cococont.xsd");
-         String tag_header = "Header,Detil";
+        GeneratorXML fj = new GeneratorXML("document", "COCOCONT", "cococont.xsd");
+        String tag_header = "Header,Detil";
         fj.set_tag_header(tag_header);
         fj.set_attribute_header("description", "testing", 0);
         String tagging = "KD_DOK:3, KD_TPS:KOJA , NO_VOY_FLIGHT:0045 , CALL_SIGN:A8LE3"
                 + " , KD_GUDANG:KOJA , ETA:20151121080000 , ETD:201511221400 , VESSEL_CODE:HALINA , VESSEL_NAME:HAMMONIA BEROLINA ";
         fj.isi_tag_header(tagging, 0);
-        
-         fj.add_content("1", 0, 0);
+
+        fj.add_content("1", 0, 0);
         fj.add_content("1", 1, 0);
-          System.out.println(fj.getStringxml());
+        String xml = fj.getStringxml();
+        System.out.println("------------------XML FILE-------------------");
+        System.out.println(xml);
+        
+        System.out.println("-----------------PARSING XML-----------------");
+        XMLParsing xp = new XMLParsing();
+        xp.Parsing(xml, "COCOCONT","Header","KD_DOK,KD_TPS,NO_VOY_FLIGHT,CALL_SIGN");
+        //Parsing(1,2,3,4)
+        //1. String xml yang akan di parsing
+        //2. Nama root dari xml
+        //3. Nama root tagging header yang akan di parsing
+        //4. Nama tagging yang akan di parsing (yang memiliki data)
+        
+        System.out.println("-----------------PARSING XML TES-----------------");
+        xp.xmlParsing(xml, "COCOCONT>Header", "KD_DOK,KD_TPS,NO_VOY_FLIGHT,CALL_SIGN,KD_GUDANG");
+        //xmlParsing(1,2,3)
+        //1. String xml yang akan di parsing
+        //2. root dan header data yang akan di parsing pisahkan dengan tanda ">"
+        //3. Nama tagging yang akan di parsing (yang memiliki data)
+        //maksimal 4 taging COCOCONT>Header>Detil>Cont untuk penambahan jumlah di lakukan dengan menambahkan case 4 dst.
     }
 }
