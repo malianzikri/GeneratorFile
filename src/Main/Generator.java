@@ -40,21 +40,18 @@ public class Generator {
         System.out.println("------------------XML FILE-------------------");
         System.out.println(xml);
         
-        System.out.println("-----------------PARSING XML-----------------");
-        XMLParsing xp = new XMLParsing();
-        xp.Parsing(xml, "COCOCONT","Header","KD_DOK,KD_TPS,NO_VOY_FLIGHT,CALL_SIGN");
-        //Parsing(1,2,3,4)
-        //1. String xml yang akan di parsing
-        //2. Nama root dari xml
-        //3. Nama root tagging header yang akan di parsing
-        //4. Nama tagging yang akan di parsing (yang memiliki data)
         
-        System.out.println("-----------------PARSING XML TES-----------------");
-        xp.xmlParsing(xml, "COCOCONT>Header", "KD_DOK,KD_TPS,NO_VOY_FLIGHT,CALL_SIGN,KD_GUDANG");
+        XMLParsing xp = new XMLParsing();
+        System.out.println("-----------------PARSING XML-----------------");
+        String out = xp.getStringParsingXml(xml, "COCOCONT>Header", "KD_DOK,KD_TPS,NO_VOY_FLIGHT,CALL_SIGN,KD_GUDANG");
+        System.out.println(out);
         //xmlParsing(1,2,3)
         //1. String xml yang akan di parsing
         //2. root dan header data yang akan di parsing pisahkan dengan tanda ">"
         //3. Nama tagging yang akan di parsing (yang memiliki data)
         //maksimal 4 taging COCOCONT>Header>Detil>Cont untuk penambahan jumlah di lakukan dengan menambahkan case 4 dst.
+        
+        Boolean x = xp.CreateFileXml("D:\\", "file", xml, "COCOCONT>Header", "KD_DOK,KD_TPS,NO_VOY_FLIGHT,CALL_SIGN,KD_GUDANG");
+        System.out.println(x);
     }
 }
