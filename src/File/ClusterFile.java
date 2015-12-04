@@ -55,23 +55,26 @@ public class ClusterFile {
     public void execute(String source, String destination) {
         File directory = new File(source);
 
-        File[] files = directory.listFiles();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        if (files.length == 0) {
-            System.out.println("Direktori Kosong atau Salah !");
-        } else {
-            for (File file : files) {
-                Date lastMod = new Date(file.lastModified());
-                String tanggal = sdf.format(lastMod);
-                String namaFile = file.getName();
-                cekDirektori(source, destination, tanggal, namaFile);
+        if (directory.exists()) {
+            File[] files = directory.listFiles();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            if (files.length == 0) {
+                System.out.println("Direktori Kosong !");
+            } else {
+                for (File file : files) {
+                    Date lastMod = new Date(file.lastModified());
+                    String tanggal = sdf.format(lastMod);
+                    String namaFile = file.getName();
+                    cekDirektori(source, destination, tanggal, namaFile);
+                }
             }
+        } else {
+            System.out.println("Direktori tidak ada !");
         }
     }
 
     public static void main(String[] args) throws IOException {
         ClusterFile cf = new ClusterFile();
-        cf.execute("D:\\CONTOH", "D:\\HASIL");
-        //sf.createDirektori();
+        cf.execute("D:\\koja2015", "D:\\new");
     }
 }
