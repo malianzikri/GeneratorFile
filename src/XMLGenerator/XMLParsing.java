@@ -104,12 +104,11 @@ public class XMLParsing {
     }
 
     public boolean CreateFileXml(String path, String namafile, String xml, String root, String tagging) {
-        String res = null;
+        String isi = null;
         Boolean result;
         
         XMLParsing xp = new XMLParsing();
-        res = xp.xmlParsing(xml, root, tagging);
-        String[] isi = res.split(",");
+        isi = xp.xmlParsing(xml, root, tagging);
         CreateFile cf = new CreateFile();
         result = cf.newFile(path, namafile, isi);
         

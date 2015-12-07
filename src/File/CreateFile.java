@@ -17,17 +17,21 @@ import java.util.logging.Logger;
  */
 public class CreateFile {
 
-    public boolean newFile(String path,String namafile,String[] isi) {
+    public boolean newFile(String path, String namafile, String isi) {
         PrintWriter writer;
         Boolean result;
         try {
-
-            writer = new PrintWriter(path+namafile+".txt", "UTF-8");
-            for(String data : isi){
-                writer.println(data);
+             if (isi.equalsIgnoreCase("")) {
+                result = false;
+            } else {
+                writer = new PrintWriter(path + namafile + ".txt", "UTF-8");
+                String[] split_isi = isi.split(",");
+                for (String data : split_isi) {
+                    writer.println(data);
+                }
+                writer.close();
+                result = true;
             }
-            writer.close();
-            result = true;
         } catch (FileNotFoundException ex) {
             Logger.getLogger(CreateFile.class.getName()).log(Level.SEVERE, null, ex);
             result = false;
@@ -36,5 +40,10 @@ public class CreateFile {
             result = false;
         }
         return result;
+    }
+
+    public static void main(String[] args) {
+        // TODO code application logic here
+
     }
 }
