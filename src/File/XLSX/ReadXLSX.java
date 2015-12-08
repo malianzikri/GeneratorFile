@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package File_Spreadsheet;
+package File.XLSX;
 
 import java.io.File;
 import java.io.FileInputStream;
