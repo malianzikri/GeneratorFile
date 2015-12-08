@@ -5,7 +5,7 @@
  */
 package XMLGenerator;
 
-import File.CreateFile;
+import File.CreateFileTXT.CreateFile;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
@@ -110,7 +110,7 @@ public class XMLParsing {
         XMLParsing xp = new XMLParsing();
         isi = xp.xmlParsing(xml, root, tagging);
         CreateFile cf = new CreateFile();
-        result = cf.newFile(path, namafile, isi);
+        result = cf.newFileParsing(path, namafile, isi);
         
         return result;
     }

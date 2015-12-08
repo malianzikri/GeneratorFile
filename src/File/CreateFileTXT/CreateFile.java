@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package File;
+package File.CreateFileTXT;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -17,11 +17,11 @@ import java.util.logging.Logger;
  */
 public class CreateFile {
 
-    public boolean newFile(String path, String namafile, String isi) {
+    public boolean newFileParsing(String path, String namafile, String isi) {
         PrintWriter writer;
         Boolean result;
         try {
-             if (isi.equalsIgnoreCase("")) {
+            if (isi.equalsIgnoreCase("")) {
                 result = false;
             } else {
                 writer = new PrintWriter(path + namafile + ".txt", "UTF-8");
@@ -29,6 +29,28 @@ public class CreateFile {
                 for (String data : split_isi) {
                     writer.println(data);
                 }
+                writer.close();
+                result = true;
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CreateFile.class.getName()).log(Level.SEVERE, null, ex);
+            result = false;
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(CreateFile.class.getName()).log(Level.SEVERE, null, ex);
+            result = false;
+        }
+        return result;
+    }
+
+    public boolean newFile(String path, String namafile, String isi) {
+        PrintWriter writer;
+        Boolean result;
+        try {
+            if (isi.equalsIgnoreCase("")) {
+                result = false;
+            } else {
+                writer = new PrintWriter(path + namafile + ".txt", "UTF-8");
+                writer.println(isi);
                 writer.close();
                 result = true;
             }
