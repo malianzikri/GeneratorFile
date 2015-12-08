@@ -30,6 +30,7 @@ public class GeneratorDatabase {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = (Connection) DriverManager.getConnection(url, user, password);
+            connection.setAutoCommit(false);
             System.out.println("berhasil");
             return true;
         } catch (SQLException ex) {
@@ -57,7 +58,6 @@ public class GeneratorDatabase {
 
     }
 
-
     public boolean query_insert(String table, String column, String values) {
         PreparedStatement state = null;
         String split_values[] = values.split(",");
@@ -79,21 +79,18 @@ public class GeneratorDatabase {
             System.out.println(ex.getLocalizedMessage());
             Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        }finally{
-            try{
-                if (connection != null) {
-                    connection.close();
-                }
-              
+        } finally {
+            try {
+
                 if (state != null) {
                     state.close();
                 }
-               
-            }catch(Exception e){
-                 Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, e);
+
+            } catch (Exception e) {
+                Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, e);
             }
         }
-        
+
         return true;
     }
 
@@ -124,13 +121,11 @@ public class GeneratorDatabase {
 
 //            Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, ex);
             return hasil = null;
-        }finally{
-            try{
-                if (connection != null) {
-                    connection.close();
-                }
+        } finally {
+            try {
+
                 if (rs != null) {
-                   rs.close();
+                    rs.close();
                 }
                 if (rb != null) {
                     rb.close();
@@ -138,10 +133,9 @@ public class GeneratorDatabase {
                 if (state != null) {
                     state.close();
                 }
-                
-               
-            }catch(Exception e){
-                 Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, e);
+
+            } catch (Exception e) {
+                Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, e);
             }
         }
 
@@ -201,13 +195,11 @@ public class GeneratorDatabase {
 
             Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, ex);
             return hasil = null;
-        } finally{
-            try{
-                if (connection != null) {
-                    connection.close();
-                }
+        } finally {
+            try {
+
                 if (rs != null) {
-                   rs.close();
+                    rs.close();
                 }
                 if (rb != null) {
                     rb.close();
@@ -218,9 +210,9 @@ public class GeneratorDatabase {
                 if (states != null) {
                     states.close();
                 }
-               
-            }catch(Exception e){
-                 Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, e);
+
+            } catch (Exception e) {
+                Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, e);
             }
         }
 
@@ -245,13 +237,11 @@ public class GeneratorDatabase {
 
             Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, ex);
             return hasil = false;
-        } finally{
-            try{
-                if (connection != null) {
-                    connection.close();
-                }
+        } finally {
+            try {
+
                 if (rs != null) {
-                   rs.close();
+                    rs.close();
                 }
                 if (rb != null) {
                     rb.close();
@@ -262,9 +252,9 @@ public class GeneratorDatabase {
                 if (states != null) {
                     states.close();
                 }
-               
-            }catch(Exception e){
-                 Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, e);
+
+            } catch (Exception e) {
+                Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, e);
             }
         }
 
@@ -300,13 +290,11 @@ public class GeneratorDatabase {
 
             Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, ex);
             return hasil = false;
-        } finally{
-            try{
-                if (connection != null) {
-                    connection.close();
-                }
+        } finally {
+            try {
+
                 if (rs != null) {
-                   rs.close();
+                    rs.close();
                 }
                 if (rb != null) {
                     rb.close();
@@ -317,9 +305,9 @@ public class GeneratorDatabase {
                 if (states != null) {
                     states.close();
                 }
-               
-            }catch(Exception e){
-                 Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, e);
+
+            } catch (Exception e) {
+                Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, e);
             }
         }
 
@@ -369,14 +357,11 @@ public class GeneratorDatabase {
 
             Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        }
-         finally{
-            try{
-                if (connection != null) {
-                    connection.close();
-                }
+        } finally {
+            try {
+
                 if (rs != null) {
-                   rs.close();
+                    rs.close();
                 }
                 if (rb != null) {
                     rb.close();
@@ -387,9 +372,9 @@ public class GeneratorDatabase {
                 if (states != null) {
                     states.close();
                 }
-               
-            }catch(Exception e){
-                 Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, e);
+
+            } catch (Exception e) {
+                Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, e);
             }
         }
 //        return hasil;
@@ -422,6 +407,7 @@ public class GeneratorDatabase {
             }
 
             state.executeUpdate();
+            Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, "berhasil");
             connection.commit();
             return true;
 //            
@@ -429,12 +415,9 @@ public class GeneratorDatabase {
 
             Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        }
-        finally {
+        } finally {
             try {
-                if (connection != null) {
-                    connection.close();
-                }
+
                 if (rs != null) {
                     rs.close();
                 }
@@ -455,25 +438,35 @@ public class GeneratorDatabase {
 //        return hasil;
     }
 
-    public static void main(String[] args) throws ClassNotFoundException {
-        // TODO code application logic here
-        GeneratorDatabase g = new GeneratorDatabase();
-        g.connectDatabase_MYSQL("localhost", "generatorcoba", "root", "");
-//        g.query_insert("mahasiswa", "nama", "tos");
-//        String hasil[] = g.query_select_without_where("mahasiswa", "nim,alamat");
-//        if (hasil == null) {
-//            System.out.println("error");
-//        } else {
-//            for (int i = 0; i < hasil.length; i++) {
-//                System.out.println(hasil[i]);
-//            }
-//        }
+    public void close_connection() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GeneratorDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
-//        g.query_select_with_where("mahasiswa", "nama,nim", "nama like, nim >", "%te%,1", ",and");
-//        g.query_delete_with_where("mahasiswa","nama =,nim = ","coba,10", ",and");
-//        g.query_delete_without_where("mahasiswa");
-//        g.query_update_with_where("mahasiswa", "nama,nim", "coba,11", "nama =", "tes", "");
-//        g.query_update_without_where("mahasiswa", "nama", "tes");
     }
 
+//    public static void main(String[] args) throws ClassNotFoundException {
+//        // TODO code application logic here
+//        GeneratorDatabase g = new GeneratorDatabase();
+//        g.connectDatabase_MYSQL("localhost", "generatorcoba", "root", "");
+////        g.query_insert("mahasiswa", "nama", "tos");
+////        String hasil[] = g.query_select_without_where("mahasiswa", "nim,alamat");
+////        if (hasil == null) {
+////            System.out.println("error");
+////        } else {
+////            for (int i = 0; i < hasil.length; i++) {
+////                System.out.println(hasil[i]);
+////            }
+////        }
+//
+////        g.query_select_with_where("mahasiswa", "nama,nim", "nama like, nim >", "%te%,1", ",and");
+////        g.query_delete_with_where("mahasiswa","nama =,nim = ","coba,10", ",and");
+////        g.query_delete_without_where("mahasiswa");
+////        g.query_update_with_where("mahasiswa", "nama,nim", "coba,11", "nama =", "tes", "");
+////        g.query_update_without_where("mahasiswa", "nama", "tes");
+//    }
 }
