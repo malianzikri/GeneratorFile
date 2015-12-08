@@ -5,7 +5,7 @@
  */
 package XMLGenerator;
 
-import File.CreateFileTXT.CreateFile;
+import File_TXT.CreateFile;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;

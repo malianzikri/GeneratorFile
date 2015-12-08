@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package File.CreateFileTXT;
+package File_TXT;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
