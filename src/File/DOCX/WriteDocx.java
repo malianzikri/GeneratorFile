@@ -67,7 +67,7 @@ public class WriteDocx {
         }
     }
 
-    public void Write(String header,String footer,String kalimat, String alignment) {
+    public void Write(String header,String footer,String kalimat, String alignment,String path) {
         try {
 
             CreateHeader(header);
@@ -89,7 +89,7 @@ public class WriteDocx {
                 r.setText(text);
             }
 
-            FileOutputStream out = new FileOutputStream("D:\\hasil2.docx");
+            FileOutputStream out = new FileOutputStream(path);
             docx.write(out);
             out.close();
             System.out.println("Done");
@@ -191,7 +191,7 @@ public class WriteDocx {
                 + "O...\n"
                 + "Yeah... Yeah...\n"
                 + "Uh Ooo...";
-        wd.Write("BE THE LIGHT","ONE OK ROCK",kalimat,"center");
+        wd.Write("BE THE LIGHT","ONE OK ROCK",kalimat,"center","D:\\test.dox");
     }
 
 }
