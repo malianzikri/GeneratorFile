@@ -1,0 +1,100 @@
+#Tutorial How To Use Generator Database
+- First if you want to use this you must call method connectDatabase_MYSQL for use this to mysql 
+  or connectDatabase_Oracle to use with Oracle. In this method you must set host,Database Name, User , Password.
+  for example i want to connect with mysql:
+    GeneratorDatabase a= new GeneratorDatabase()
+    a.connectDatabase_MYSQL("localhost","generator","root","");
+- After this you can choose what operation you want in this class.
+  This Class have 5 operation query : insert,select,update,delete, and raw Query.
+  
+    - Insert some data in datase you can just call method query_insert 
+      this method have 3 paramater : table,column,value
+      in column and value data separator by , so if you want insert data in 2 column 
+      you must described 2 column and for value just like that too
+      Exampele:
+      my table name mahasiswa and have 3 column nama,nim,alamat
+      so if you want insert data in 3 column that just like this:
+      a.query_insert("mahasiswa","nama,nim,alamat","generator,01,jakarta")
+      if you want insert many data you can just use loop and call this method. 
+      
+    - Select query in this class have 2 method first select with where clause and select without where clause
+      i will give you 2 example for this. before that in this method you can just use standar sql if you want use unique sql         you can just use method raw query. 
+        - query_select_without_where
+          this method have 2 paramater first paramater is table and the second is column. 
+          this method will return data in array of string.
+          this array of string have format like this nama_column:value_column you can just try and print to see that.
+          example:
+          this example will return that all value in column nama.
+          a.query_select_without_where("mahasiwa","nama")
+          
+        - query_select_with_where
+          this method have 5 paramater : first table,second column,third column_where, forth value_where, and operand
+          this paramater you must include if you want to use this.
+          column_where is that column what you want to use in where clause 
+          value_where is that value what you want to user in column_where
+          operand is that value what you want to use in where clause
+          example: 
+              i want to select column nama and have where clause nama=coba and nim=1 
+              a.query_select_with_where("mahasiswa","nama","nama=,nim=","coba,1",",and");
+              so if in query will like this: select nama from mahasiswa where nama=coba and nim=1;
+          this method will return    arraylist
+          
+        - query_select_raw
+          this method will execute raw query 
+          this method have 3 paramater first table,second column, and sql
+          Remember just use this method for unique sql.
+          example i want to use this querry select distinc nama from mahasiswa
+          so i will call this method a.query_select_raw("mahasiswa","nama","select distinc nama from mahasiswa")
+          this method will return arraylist
+    
+    - Delete query in this class have 2 method for use delete query:
+        -query_delete_without_where
+            this method is to delete all data from some table.
+            this methode just have one paramater is table.
+            so use this method if you want delete all data in table.
+            example :
+            i want to delete all data from mahasiswa so i just call this method
+            a.query_delete_without_where("mahasiswa")
+            this method will return boolean. 
+        
+        - query_delete_with_where
+            this method have 4 paramater and will return boolean
+            first paramater is table, second column_where, third value_where, four operand
+            use this method if you want delete some data in table. 
+            example:
+            i want to delete some data in mahasiswa where nama=coba and nim=1
+            so i just call this method
+            a.query_delete_with_where("mahasiswa","nama = ,nim = ","coba,1",",and")
+    
+    - Update query in this class have 2 method for user update query:
+        - query_update_without_where
+            this method have 3 paramater  and will return boolean
+            first paramater is table, second is column_update , third column_value
+            use this method will update all your data remember this.
+            example:
+            i want change all data nama to tes
+            so i just call this method
+            a.query_update_without_where("mahasiswa","nama","tes")
+        
+        - query_update_with_where
+            this method have 6 paramater and will return boolean
+            first paramater is table,second is column_update, third is column_value
+            fourth is column_where, five is value_where, six is operan
+            use this method if you want update some data and have some where clause
+            example:
+            i want to change nama=coba and nim=10 where nama=tes and nim=1
+            so i just call this method 
+            a.query_update_with_where("mahasiswa","nama,nim","coba,10","nama = ,nim= ","tes,1",",and")
+
+i think that is some tutorial for use this class. if you have some question you can just email me in malianzikri92@gmail.com.
+if you have some sugestion just email me and i hope with this class all of you can have some help to query database in java.
+
+#note: after all you use this call method close_connection exmaple a.close_connection()
+thanks.
+
+Best Regards Malian
+            
+
+    
+    
+        
