@@ -1,0 +1,15 @@
+- ClusterFile 
+  memiliki bebrapa method movefile, createDirektori, cekDirektori, dan execute.
+  untuk menggunakan ClusterFile dengan menggunakan method execute(Source,Destination) 
+  - Source merupakan paramter untuk mengisi letak folder yang akan dilakukan clustering.
+  - Destination merupakan parameter untuk mengisi letak folder hasil clustering.
+  cara menggunakan Class ClusterFile adalah sebagai berikut :
+  ClusterFile cf = new ClusterFile();
+  cf.execute("D:\\koja2015", "D:\\new");
+
+- DeleteFile
+  memiliki beberapa method yaitu Delete dan DeleteAll
+  Delete digunakan untuk menghapus satu file, sedangkan DeleteAll digunakan untuk menghapus semua data yang ada pada folder.
+  -Delete(direktori , nama file) : direktori merupakan letak file yang akan dihapus, dan nama file merupakan nama dari file yang akan dihapus beserta format dari file.
+  -DeleteAll(direktori) : direktori merupakan letak file-file yang akan dihapus.
+  
