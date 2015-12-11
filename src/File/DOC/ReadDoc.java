@@ -16,33 +16,9 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
  */
 public class ReadDoc {
 
-    /**
-     * @param args the command line arguments
-     */
-    public void ReadParagraph() {
+    public void Read(String path, String namafile) {
         try {
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void ReadTable() {
-        try {
-            FileInputStream fistream = new FileInputStream("D:\\test.doc");
-            HWPFDocument document = new HWPFDocument(fistream);
-            System.out.println("Total Number of Rows of Table :"
-                    + document.characterLength());
-            System.out.println(document.getText());
-            //System.out.println(document.getDocumentText());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void ReadAll() {
-        try {
-            File file = new File("D:\\test.doc");
+            File file = new File(path+namafile+".doc");
             FileInputStream fis = new FileInputStream(file.getAbsolutePath());
 
             HWPFDocument doc = new HWPFDocument(fis);
@@ -64,7 +40,7 @@ public class ReadDoc {
     public static void main(String[] args) {
         // TODO code application logic here
         ReadDoc rd = new ReadDoc();
-        rd.ReadTable();
+        rd.Read("D:\\","sample1");
     }
 
 }

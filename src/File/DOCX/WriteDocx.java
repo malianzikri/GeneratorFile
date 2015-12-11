@@ -191,7 +191,7 @@ public class WriteDocx {
                 + "O...\n"
                 + "Yeah... Yeah...\n"
                 + "Uh Ooo...";
-        wd.Write("BE THE LIGHT","ONE OK ROCK",kalimat,"center","D:\\test.dox");
+        wd.Write("BE THE LIGHT","ONE OK ROCK",kalimat,"center","D:\\test.docx");
     }
 
 }

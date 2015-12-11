@@ -59,7 +59,7 @@ public class ReadDocx {
 
     public void ReadAll(String path,String filename) {
         try {
-            FileInputStream fis = new FileInputStream(path+filename+".docx");
+            FileInputStream fis = new FileInputStream(path+filename+".doc");
             XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(fis));
             XWPFWordExtractor extractor = new XWPFWordExtractor(xdoc);
             System.out.println(extractor.getText());
@@ -71,7 +71,7 @@ public class ReadDocx {
     public static void main(String[] args) {
         // TODO code application logic here
         ReadDocx rd = new ReadDocx();
-        rd.ReadAll("D:\\","hasil2");
+        rd.ReadAll("D:\\","test");
         //rd.ReadParagraph();
         //rd.ReadTable();
     }
