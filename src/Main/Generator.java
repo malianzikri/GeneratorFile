@@ -49,7 +49,6 @@ public class Generator {
         //1. String xml yang akan di parsing
         //2. root dan header data yang akan di parsing pisahkan dengan tanda ">"
         //3. Nama tagging yang akan di parsing (yang memiliki data)
-        //maksimal 4 taging COCOCONT>Header>Detil>Cont untuk penambahan jumlah di lakukan dengan menambahkan case 4 dst.
         
         Boolean x = xp.CreateFileXml("D:\\", "file", xml, "COCOCONT>Header", "KD_DOK,KD_TPS,NO_VOY_FLIGHT,CALL_SIGN,KD_GUDANG");
         System.out.println(x);

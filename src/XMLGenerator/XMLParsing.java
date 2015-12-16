@@ -24,7 +24,7 @@ public class XMLParsing {
 
     Element elemen[] = null;
 
-    public String xmlParsing(String xml, String root, String tagging) {
+    private String xmlParsing(String xml, String root, String tagging) {
         String[] header;
         List listchild = null;
         Element elemen[] = null;
@@ -56,10 +56,11 @@ public class XMLParsing {
                             String[] split_tagging = tagging.split(",");
                             int cek = 1;
                             for (String tag : split_tagging) {
-                                result += tag + ":" + node.getChildText(tag);
+                                result +=  node.getChildText(tag);
                                 result += (cek == split_tagging.length) ? "" : ",";
                                 cek++;
                             }
+                            result += ";";
                         }
                     }
                 } else {
@@ -73,10 +74,11 @@ public class XMLParsing {
                                 String[] split_tagging = tagging.split(",");
                                 int cek = 1;
                                 for (String tag : split_tagging) {
-                                    result += tag + ":" + node.getChildText(tag);
+                                    result += node.getChildText(tag);
                                     result += (cek == split_tagging.length) ? "" : ",";
                                     cek++;
                                 }
+                                result += ";";
                             }
                         }
                     }

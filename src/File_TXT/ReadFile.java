@@ -28,7 +28,6 @@ public class ReadFile {
         File f = new File(path + nama_file);
         if (f.canRead()) {
             try {
-                System.out.println("can read");
                 hasil = FileUtils.readFileToString(f);
                 return hasil;
             } catch (IOException ex) {

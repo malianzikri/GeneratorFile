@@ -75,6 +75,6 @@ public class ClusterFile {
 
     public static void main(String[] args) throws IOException {
         ClusterFile cf = new ClusterFile();
-        cf.execute("D:\\koja2015", "D:\\new");
+        cf.execute("D:\\CONTOH", "D:\\HASIL");
     }
 }
