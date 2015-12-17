@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package File_TXT;
+package File.TXT;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -49,7 +49,7 @@ public class CreateFile {
             if (isi.equalsIgnoreCase("")) {
                 result = false;
             } else {
-                writer = new PrintWriter(path + namafile + ".txt", "UTF-8");
+                writer = new PrintWriter(path + namafile , "UTF-8");
                 writer.println(isi);
                 writer.close();
                 result = true;
@@ -66,6 +66,7 @@ public class CreateFile {
 
     public static void main(String[] args) {
         // TODO code application logic here
-
+        CreateFile cf = new CreateFile();
+        cf.newFile("", "text.doc", "ini masuk");
     }
 }
