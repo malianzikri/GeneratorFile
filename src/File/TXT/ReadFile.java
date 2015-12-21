@@ -53,9 +53,7 @@ public class ReadFile {
                 if (file.canRead()) {
                     String content = FileUtils.readFileToString(file);
                     hasil.add(content);
-                }
-                else
-                {
+                } else {
                     hasil.add("kosong");
                 }
             } catch (IOException ex) {
@@ -69,7 +67,7 @@ public class ReadFile {
         // TODO code application logic here
         ReadFile rf = new ReadFile();
         ArrayList hasil = new ArrayList();
-        hasil = rf.read_all_files("E:\\malian\\Belajar");
+        hasil = rf.read_all_files("D:\\Belajar");
         System.out.println(hasil.get(1));
     }
 

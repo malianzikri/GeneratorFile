@@ -6,6 +6,8 @@
 package XMLGenerator;
 
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -22,89 +24,91 @@ import org.jdom2.output.XMLOutputter;
  */
 public class GeneratorXML {
 
-    Element header[] = null;
-    Element child[] = null;
-    Element root ;
-    Document doc ;
-    Element doclist ;
-    public GeneratorXML(String Root,String nama_dokument,String xmlns )
-    {
-         root = new Element(Root, xmlns);
-         doc= new Document(root);
-         doclist= new Element(nama_dokument);
+    private Element child[] = null;
+    private Element root;
+    private Document doc;
+    private Element doclist;
+    private List<Element> head = null;
+    private String[] split_tag_header = null;
+
+    public GeneratorXML(String Root, String xmlns) {
+        root = new Element(Root, xmlns);
+        doc = new Document(root);
+        head = new ArrayList<Element>();
     }
-    public void set_tag_header(String tag_header) {
-        String[] split_tag_header = tag_header.split(",");
-        header = new Element[split_tag_header.length];
-        for (int i = 0; i < split_tag_header.length; i++) {
-            header[i] = new Element(split_tag_header[i]);
+
+    public boolean addXML(String tag_header, String tag_child, String isi) {
+        boolean result = false;
+        int index = 0;
+        try {
+            if (tag_child.equals("")) {
+                result = false;
+            } else {
+                if (tag_header.equalsIgnoreCase(root.getName())) {
+                    head.add(new Element(tag_child));
+                    int x = head.size() - 1;
+                    if (!isi.equals("")) {
+                        String isi_split[] = isi.split(",");
+                        for (int i = 0; i < isi_split.length; i++) {
+                            String split_element[] = isi_split[i].split(":");
+                            if (!isi_split[i].startsWith(":")) {
+                                if (split_element.length == 1) {
+                                    head.get(x).addContent(new Element(split_element[0].trim()).setText(""));
+                                } else {
+                                    head.get(x).addContent(new Element(split_element[0].trim()).setText(split_element[1].trim()));
+                                }
+                            }
+                        }
+                    }
+                    doc.getRootElement().addContent(head.get(x));
+                } else {
+                    for (int i = 0; i < head.size(); i++) {
+                        if (tag_header.equalsIgnoreCase(head.get(i).getName())) {
+                            index = i;
+                        } else {
+                            result = false;
+                        }
+                    }
+                    head.add(new Element(tag_child));
+                    int x = head.size() - 1;
+                    if (!isi.equals("")) {
+                        String isi_split[] = isi.split(",");
+                        for (int i = 0; i < isi_split.length; i++) {
+
+                            String split_element[] = isi_split[i].split(":");
+                            if (!isi_split[i].startsWith(":")) {
+                                if (split_element.length == 1) {
+                                    head.get(x).addContent(new Element(split_element[0].trim()).setText(""));
+                                } else {
+                                    head.get(x).addContent(new Element(split_element[0].trim()).setText(split_element[1].trim()));
+                                }
+                            }
+                        }
+                    }
+                    head.get(index).addContent(head.get(x));
+                }
+                result = true;
+            }
+
+        } catch (Exception e) {
+            result = false;
         }
-    }
-
-    public void isi_tag_header(String tagging, int index_header) {
-        String tagging_split[] = tagging.split(",");
-        for (int i = 0; i < tagging_split.length; i++) {
-            String split_element[] = tagging_split[i].split(":");
-            header[index_header].addContent(new Element(split_element[0].trim()).setText(split_element[1].trim()));
-        }
-//        doclist.addContent(header[index_header]);
-    }
-
-    public void set_attribute_header(String nama_attrib, String isi_attrib, int index_header) {
-        header[index_header].setAttribute(new Attribute(nama_attrib, isi_attrib));
-    }
-
-    public void set_attribute_child(String nama_attrib, String isi_attrib, int index_child) {
-        child[index_child].setAttribute(new Attribute(nama_attrib, isi_attrib));
-    }
-
-    public void set_tag_child(String tag_child) {
-        String[] split_tag_header = tag_child.split(",");
-        child = new Element[split_tag_header.length];
-        for (int i = 0; i < split_tag_header.length; i++) {
-            child[i] = new Element(split_tag_header[i]);
-        }
-
-    }
-
-    public void isi_tag_child(String tagging_cont, int index_child) {
-        String tagging_spliter[] = tagging_cont.split(",");
-
-        for (int i = 0; i < tagging_spliter.length; i++) {
-            String split_element[] = tagging_spliter[i].split(":");
-            child[index_child].addContent(new Element(split_element[0].trim()).setText(split_element[1]));
-
-        }
-//       
-//        doclist.addContent(header[index_header]);
-    }
-
-    public void add_content(String kode, int index_header, int index_child) {
-        if (kode.equals("1")) {
-            doclist.addContent(header[index_header]);
-        } else if (kode.equals("2")) {
-            header[index_header].addContent(child[index_child]);
-        } else if (kode.equals("3")) {
-            child[index_header].addContent(child[index_child]);
-        }
+        return result;
     }
 
     public String getStringxml() {
-        doc.getRootElement().addContent(doclist);
         String xml = new XMLOutputter().outputString(doc);
         return xml;
     }
 
-    public Boolean saveXml(String path, String nama_file) {
-        try {
-            doc.getRootElement().addContent(doclist);
-            XMLOutputter xmlOutput = new XMLOutputter();
-            xmlOutput.setFormat(Format.getPrettyFormat());
-            xmlOutput.output(doc, new FileWriter(path + nama_file+".xml"));
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
+    public static void main(String[] args) {
+        // TODO code application logic here
+        GeneratorXML a = new GeneratorXML("DOKUMEN", "");
+        a.addXML("DOKUMEN", "COCOCONT", "");
+        a.addXML("COCOCONT", "HEADER", "");
+        System.out.println(a.addXML("HEADER", "DETIL", "NAMA:a"));
+
+        System.out.println(a.getStringxml());
     }
 
     
