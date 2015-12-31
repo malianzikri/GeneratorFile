@@ -38,8 +38,6 @@ public class ParsingXML {
         SAXBuilder builder = new SAXBuilder();
 
         try {
-//            String xmla = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><document><COCOCONT><Head><Header><KD_DOK>3</KD_DOK><KD_TPS>KOJA</KD_TPS><NO_VOY_FLIGHT>0045</NO_VOY_FLIGHT><CALL_SIGN>A8LE3</CALL_SIGN><KD_GUDANG>KOJA</KD_GUDANG><ETA>20151121080000</ETA><ETD>201511221400</ETD><VESSEL_CODE>HALINA</VESSEL_CODE><VESSEL_NAME>HAMMONIA BEROLINA</VESSEL_NAME></Header>"
-//                    + "<Header><KD_DOK>4</KD_DOK><KD_TPS>KOJA</KD_TPS><NO_VOY_FLIGHT>0045</NO_VOY_FLIGHT><CALL_SIGN>A8LE3</CALL_SIGN><KD_GUDANG>KOJA</KD_GUDANG><ETA>20151121080000</ETA><ETD>201511221400</ETD><VESSEL_CODE>HALINA</VESSEL_CODE><VESSEL_NAME>HAMMONIA BEROLINA</VESSEL_NAME></Header></Head><Detil /></COCOCONT></document>";
             Document documentparse = builder.build(new StringReader(xml));
             int index = 0;
             header = root.split(">");
@@ -56,7 +54,7 @@ public class ParsingXML {
                             String[] split_tagging = tagging.split(",");
                             int cek = 1;
                             for (String tag : split_tagging) {
-                                result +=  node.getChildText(tag);
+                                result += node.getChildText(tag);
                                 result += (cek == split_tagging.length) ? "" : ",";
                                 cek++;
                             }
@@ -81,6 +79,24 @@ public class ParsingXML {
                                 result += ";";
                             }
                         }
+                    } else {
+                        for (int i = 0; i < list.size(); i++) {
+                            elemen[index] = (Element) list.get(i);
+                            listchild = elemen[index].getChildren(head);
+                            if (jml_header == 0) {
+                                for (int j = 0; j < listchild.size(); j++) {
+                                    Element node = (Element) listchild.get(j);
+                                    String[] split_tagging = tagging.split(",");
+                                    int cek = 1;
+                                    for (String tag : split_tagging) {
+                                        result += node.getChildText(tag);
+                                        result += (cek == split_tagging.length) ? "" : ",";
+                                        cek++;
+                                    }
+                                    result += ";";
+                                }
+                            }
+                        }
                     }
                 }
                 index++;
@@ -101,20 +117,37 @@ public class ParsingXML {
         if (!res.equals("")) {
             return res;
         } else {
-            return "FORMAT SALAH";
+            return "datakosong";
         }
     }
 
     public boolean CreateFileXml(String path, String namafile, String xml, String root, String tagging) {
         String isi = null;
         Boolean result;
-        
+
         ParsingXML xp = new ParsingXML();
         isi = xp.xmlParsing(xml, root, tagging);
         CreateFile cf = new CreateFile();
         result = cf.newFileParsing(path, namafile, isi);
-        
+
         return result;
     }
 
+    public static void main(String[] args) {
+        // TODO code application logic here
+        String xmla = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                    + "<DOCUMENT>"
+                    + "<LOADPLP><HEADER><KD_DOK>1</KD_DOK></HEADER><HEADER><KD_DOK>2</KD_DOK></HEADER><DETIL><CONT><NO_CONT>4</NO_CONT></CONT></DETIL></LOADPLP>"
+                    + "<LOADPLP><HEADER><KD_DOK>5</KD_DOK></HEADER><DETIL><CONT><NO_CONT>4</NO_CONT></CONT></DETIL></LOADPLP>"
+                    + "</DOCUMENT>";
+        ParsingXML a = new ParsingXML();
+//        String hasil = a.getStringParsingXml(xmla, "LOADPLP>HEADER", "KD_DOK");
+        String hasil = a.getStringParsingXml(xmla, "LOADPLP", "");
+        String[] hasil1 = hasil.split(";");
+        for(int i=0;i<hasil1.length;i++){
+            String hasil2 = a.getStringParsingXml(xmla, "LOADPLP>HEADER", "KD_DOK");
+            System.out.println(hasil2);
+        }
+        
+    }
 }

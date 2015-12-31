@@ -26,7 +26,6 @@ public class ClusterFile {
             } else {
                 System.out.println(namaFile + " is failed to move!");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
