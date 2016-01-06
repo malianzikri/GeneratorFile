@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package XMLGenerator;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class ParsingXML {
     List<Element> ele = new ArrayList<>();
     ArrayList al = new ArrayList();
 
-    private ArrayList xmlParsing(String xml, String root, String nodes) {
+    public ArrayList xmlParsing(String xml, String root, String nodes) {
         String result = "";
         xml = xml.replace("xmlns", "doc");
         xml = xml.replace("xmlns=\"\"", "");
@@ -46,10 +47,21 @@ public class ParsingXML {
                 if (index == 1) {
                     for (int j = 0; j < list[ele.size() - 1].size(); j++) {
                         Element node = (Element) list[ele.size() - 1].get(j);
-                        result += node.getChildText(nodes);
-                        result += (j == list[x - 1].size() - 1) ? "" : ",";
+                        String[] split_nodes = nodes.split(",");
+                        int z = 0;
+                        for (String node1 : split_nodes) {
+                            if(node.getChildText(node1)==null){
+                            result += "kosong";    
+                            }else if(node.getChildText(node1).equalsIgnoreCase("")){
+                            result += "kosong";
+                            }else{
+                            result +=  node.getChildText(node1);    
+                            }
+                            result += (z == (split_nodes.length - 1)) ? "" : ",";
+                            z++;
+                        }
+                        al.add(result);
                     }
-                    al.add(result);
                 } else {
                     for (int j = 0; j < list[(x - 1)].size(); j++) {
                         ele.add((Element) list[(x - 1)].get(j));
@@ -71,7 +83,7 @@ public class ParsingXML {
         ArrayList<String> doks = new ArrayList<String>();
         int i = 0;
         String data = fStream;
-        String[] databaru = data.replace("</"+typedok+">", "</"+typedok+">" + "#").split("#");
+        String[] databaru = data.replace("</" + typedok + ">", "</" + typedok + ">" + "#").split("#");
         for (String dok : databaru) {
             i++;
             if (i == databaru.length) {
@@ -90,20 +102,17 @@ public class ParsingXML {
 //        // TODO code application logic here
         String xmla = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                 + "<DOCUMENT>"
-                + "<LOADPLP><HEADER><KD_DOK>1</KD_DOK></HEADER><DETIL><CONT><NO_CONT>4</NO_CONT></CONT><CONT><NO_CONT>5</NO_CONT></CONT></DETIL></LOADPLP>"
-                + "<LOADPLP><HEADER><KD_DOK>9</KD_DOK></HEADER><DETIL><CONT><NO_CONT>3</NO_CONT></CONT></DETIL></LOADPLP>"
-                + "<LOADPLP><HEADER><KD_DOK>5</KD_DOK></HEADER><HEADER><KD_DOK>2</KD_DOK></HEADER><DETIL><CONT><NO_CONT>6</NO_CONT></CONT><CONT><NO_CONT>8</NO_CONT></CONT></DETIL></LOADPLP>"
+                + "<LOADPLP><HEADER><KD_DOK>1</KD_DOK></HEADER><DETIL><CONT><NO_CONT>5</NO_CONT><A></A></CONT></DETIL></LOADPLP>"
+//                + "<LOADPLP><HEADER><KD_DOK>9</KD_DOK></HEADER><DETIL><CONT><NO_CONT>3</NO_CONT></CONT></DETIL></LOADPLP>"
+//                + "<LOADPLP><HEADER><KD_DOK>5</KD_DOK></HEADER><HEADER><KD_DOK>2</KD_DOK></HEADER><DETIL><CONT><NO_CONT>6</NO_CONT><A>1</A></CONT><CONT><NO_CONT>8</NO_CONT></CONT></DETIL></LOADPLP>"
                 + "</DOCUMENT>";
         ParsingXML a = new ParsingXML();
-        ArrayList<String> head = new ArrayList();
         ArrayList<String> node = new ArrayList();
-        head = a.getHeader(xmla, "LOADPLP");
-        for (String head1 : head) {
-            node = a.xmlParsing(head1, "LOADPLP>DETIL>CONT", "NO_CONT");
-            for(String nodes : node){
-                System.out.println(nodes);
+            node = a.xmlParsing(xmla, "LOADPLP>DETIL>CONT", "NO_CONT,A");
+            for (String nodes : node) {
+                    String[] split_isi = nodes.split(",");
+                    System.out.println("NO_CONT : " + split_isi[0]);
+                    System.out.println("A : " + split_isi[1]);
             }
-        }
     }
 }
-

@@ -144,7 +144,9 @@ public class DatabaseOracle {
                 state.setString(i, split_value[i - 1]);
             }
             rs = state.executeQuery();
+            boolean cek = true;
             while (rs.next()) {
+                cek =false;
                 for (int i = 0; i < split_column.length; i++) {
                     hasil = hasil + "#" + split_column[i] + ":" + rs.getString(i + 1);
 
@@ -155,7 +157,9 @@ public class DatabaseOracle {
                 a.add(hasil);
                 hasil = "";
             }
-            
+            if(cek){
+                a.add("datakosong");
+            }
             return a;
 //            
         } catch (SQLException ex) {
