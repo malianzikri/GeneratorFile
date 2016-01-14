@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 public class DatabaseOracle {
 
     private Connection connection;
+    private String message;
 
     public boolean connectDatabase(String host, String dbname, String user, String password) throws ClassNotFoundException {
         String url = "jdbc:oracle:thin:@" + host + ":" + "1521:" + dbname;
@@ -34,6 +35,7 @@ public class DatabaseOracle {
             connection.setAutoCommit(false);
             return true;
         } catch (SQLException ex) {
+            set_message(ex.getLocalizedMessage());
             System.out.println(ex.getLocalizedMessage());
             Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -41,7 +43,8 @@ public class DatabaseOracle {
         }
 
     }
- public boolean query_insert(String table, String column, String values) {
+
+    public boolean query_insert(String table, String column, String values) {
         PreparedStatement state = null;
         String split_values[] = values.split(",");
         String value = "?";
@@ -58,7 +61,7 @@ public class DatabaseOracle {
             state.executeUpdate();
             connection.commit();
         } catch (SQLException ex) {
-
+            set_message(ex.getLocalizedMessage());
             //System.out.println(ex.getLocalizedMessage());
             Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -70,6 +73,8 @@ public class DatabaseOracle {
                 }
 
             } catch (Exception e) {
+                set_message(e.getLocalizedMessage());
+
                 Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, e);
             }
         }
@@ -99,6 +104,7 @@ public class DatabaseOracle {
             }
             return al;
         } catch (SQLException ex) {
+            set_message(ex.getLocalizedMessage());
 
 //            Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, ex);
             return al = null;
@@ -116,6 +122,8 @@ public class DatabaseOracle {
                 }
 
             } catch (Exception e) {
+                set_message(e.getLocalizedMessage());
+
                 Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, e);
             }
         }
@@ -137,7 +145,7 @@ public class DatabaseOracle {
             query_where = query_where + split_operan[i] + " " + split_column_where[i] + "?";
         }
         query = query + query_where;
-      
+
         try {
             state = (PreparedStatement) connection.prepareStatement(query.trim());
             for (int i = 1; i <= split_value.length; i++) {
@@ -146,7 +154,7 @@ public class DatabaseOracle {
             rs = state.executeQuery();
             boolean cek = true;
             while (rs.next()) {
-                cek =false;
+                cek = false;
                 for (int i = 0; i < split_column.length; i++) {
                     hasil = hasil + "#" + split_column[i] + ":" + rs.getString(i + 1);
 
@@ -157,12 +165,14 @@ public class DatabaseOracle {
                 a.add(hasil);
                 hasil = "";
             }
-            if(cek){
+            if (cek) {
                 a.add("datakosong");
             }
             return a;
 //            
         } catch (SQLException ex) {
+            set_message(ex.getLocalizedMessage());
+
             Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, ex);
             return a = null;
         } finally {
@@ -177,6 +187,8 @@ public class DatabaseOracle {
                 }
 
             } catch (Exception e) {
+                set_message(e.getLocalizedMessage());
+
                 Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, e);
             }
         }
@@ -199,6 +211,7 @@ public class DatabaseOracle {
             state.executeUpdate();
             return hasil;
         } catch (SQLException ex) {
+            set_message(ex.getLocalizedMessage());
 
             Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, ex);
             return hasil = false;
@@ -219,6 +232,8 @@ public class DatabaseOracle {
                 }
 
             } catch (Exception e) {
+                set_message(e.getLocalizedMessage());
+
                 Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, e);
             }
         }
@@ -252,6 +267,7 @@ public class DatabaseOracle {
             state.executeUpdate();
             return hasil;
         } catch (SQLException ex) {
+            set_message(ex.getLocalizedMessage());
 
             Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, ex);
             return hasil = false;
@@ -272,6 +288,8 @@ public class DatabaseOracle {
                 }
 
             } catch (Exception e) {
+                set_message(e.getLocalizedMessage());
+
                 Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, e);
             }
         }
@@ -319,6 +337,7 @@ public class DatabaseOracle {
             return true;
 //            
         } catch (SQLException ex) {
+            set_message(ex.getLocalizedMessage());
 
             Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -339,6 +358,8 @@ public class DatabaseOracle {
                 }
 
             } catch (Exception e) {
+                set_message(e.getLocalizedMessage());
+
                 Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, e);
             }
         }
@@ -377,6 +398,7 @@ public class DatabaseOracle {
             return true;
 //            
         } catch (SQLException ex) {
+            set_message(ex.getLocalizedMessage());
 
             Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -397,6 +419,8 @@ public class DatabaseOracle {
                 }
 
             } catch (Exception e) {
+                            set_message(e.getLocalizedMessage());
+
                 Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, e);
             }
         }
@@ -408,6 +432,8 @@ public class DatabaseOracle {
             try {
                 connection.close();
             } catch (SQLException ex) {
+                            set_message(ex.getLocalizedMessage());
+
                 Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -435,6 +461,8 @@ public class DatabaseOracle {
 
             return a;
         } catch (SQLException ex) {
+                        set_message(ex.getLocalizedMessage());
+
             Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, ex);
             return a = null;
         } finally {
@@ -449,9 +477,19 @@ public class DatabaseOracle {
                 }
 
             } catch (Exception e) {
+                            set_message(e.getLocalizedMessage());
+
                 Logger.getLogger(DatabaseMYSQL.class.getName()).log(Level.SEVERE, null, e);
             }
         }
 
+    }
+
+    private void set_message(String message) {
+        this.message = message;
+    }
+
+    public String get_message_error() {
+        return this.message;
     }
 }
